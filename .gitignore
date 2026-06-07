@@ -1,0 +1,26 @@
+# Raw and processed dataset files
+data/raw/
+data/processed/
+
+# Trained model artifacts
+models/
+
+# Generated output artifacts
+outputs/*.json
+outputs/*.csv
+outputs/*.png
+outputs/*_metrics.json
+outputs/*_errors.json
+
+# Android/Gradle local build artifacts
+android/IxissageApp/.gradle/
+android/IxissageApp/build/
+android/IxissageApp/app/build/
+android/IxissageApp/local.properties
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store

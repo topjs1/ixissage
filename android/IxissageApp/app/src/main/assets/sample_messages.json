@@ -1,0 +1,272 @@
+[
+  {
+    "id": "sample-001",
+    "sender": "IXISSAGE-NORMAL-001",
+    "body": "무엇보다도 택시 기사들의 수준이 너무 꽝 교육좀 시켜라",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.9685,
+    "phishingProbability": 0.0315
+  },
+  {
+    "id": "sample-002",
+    "sender": "IXISSAGE-SMISH-002",
+    "body": "https://example.com SK**쳣②*,먜①*먜이져는달라요재재없는~햬외식[M*]",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019796,
+    "phishingProbability": 0.980204
+  },
+  {
+    "id": "sample-003",
+    "sender": "IXISSAGE-SMISH-003",
+    "body": "*만원지원&럭키박스(신규한정)휴대폰 **분투자로 ***만원주던데 https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019794,
+    "phishingProbability": 0.980206
+  },
+  {
+    "id": "sample-004",
+    "sender": "IXISSAGE-NORMAL-004",
+    "body": "여태동안 처음으로 웃음소리로 사람 빡치게 만든다는걸 보여준 사람",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968613,
+    "phishingProbability": 0.031387
+  },
+  {
+    "id": "sample-005",
+    "sender": "IXISSAGE-SMISH-005",
+    "body": "퇴근은 잘 하셨나요? 대한민국 vs 이란 얼마 남지도 않았네요 같이 치킨먹으면서 응원해요 '*만' 지급 주소창에 <NAME>대리 https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.020034,
+    "phishingProbability": 0.979966
+  },
+  {
+    "id": "sample-006",
+    "sender": "IXISSAGE-SMISH-006",
+    "body": "*+* or l*+*다양한 혜택▶ https://example.com SM**H͟An͟Kuk",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019765,
+    "phishingProbability": 0.980235
+  },
+  {
+    "id": "sample-007",
+    "sender": "IXISSAGE-SMISH-007",
+    "body": "워리어 VIP모시는글 신 *O * 진행요율받고 껨 하세용 장소: https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019811,
+    "phishingProbability": 0.980189
+  },
+  {
+    "id": "sample-008",
+    "sender": "IXISSAGE-NORMAL-008",
+    "body": "장관이면 고위관료인데 전 국민앞에서 거짓말이나하고 증인선서까지 했는데 위증을 했으니...감옥가야지...",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968549,
+    "phishingProbability": 0.031451
+  },
+  {
+    "id": "sample-009",
+    "sender": "IXISSAGE-SMISH-009",
+    "body": "♥코어♥누구나할수있지만손쉽게얻을순없다이기려는의https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.020285,
+    "phishingProbability": 0.979715
+  },
+  {
+    "id": "sample-010",
+    "sender": "IXISSAGE-SMISH-010",
+    "body": "신규 **,ooo https://example.com / Slot최고와 최선의 서비스로모시겠습니다.",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019817,
+    "phishingProbability": 0.980183
+  },
+  {
+    "id": "sample-011",
+    "sender": "IXISSAGE-NORMAL-011",
+    "body": "농구선수가 참 편한 직업이네 불법승부조작 토토하고 걸리면 몇게임 쉬다고 또 토토하고 쉬다가 꿀 직업이네",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.96868,
+    "phishingProbability": 0.03132
+  },
+  {
+    "id": "sample-012",
+    "sender": "IXISSAGE-NORMAL-012",
+    "body": "이제좀 꺼지라고 ㄱ",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968634,
+    "phishingProbability": 0.031366
+  },
+  {
+    "id": "sample-013",
+    "sender": "IXISSAGE-SMISH-013",
+    "body": "☞톡/텔레 친추하시고☞*만원 꼭 받아가세요☞(**%)(**%)(*%){CLASS}: https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019725,
+    "phishingProbability": 0.980275
+  },
+  {
+    "id": "sample-014",
+    "sender": "IXISSAGE-NORMAL-014",
+    "body": "밀워키 브루어스 소속 선수다. KBO 댓글은 사라져라~~~",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968434,
+    "phishingProbability": 0.031566
+  },
+  {
+    "id": "sample-015",
+    "sender": "IXISSAGE-SMISH-015",
+    "body": "https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.020447,
+    "phishingProbability": 0.979553
+  },
+  {
+    "id": "sample-016",
+    "sender": "IXISSAGE-NORMAL-016",
+    "body": "에반게리온이나 만들어라",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968688,
+    "phishingProbability": 0.031312
+  },
+  {
+    "id": "sample-017",
+    "sender": "IXISSAGE-NORMAL-017",
+    "body": "맛있는거 먹으면서 남친돌려까고 아주 재밌을듯..ㅠㅠ",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968761,
+    "phishingProbability": 0.031239
+  },
+  {
+    "id": "sample-018",
+    "sender": "IXISSAGE-SMISH-018",
+    "body": "결승 리뉴얼*만 추**% +***만 이상 추**%kakao:bet* https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019653,
+    "phishingProbability": 0.980347
+  },
+  {
+    "id": "sample-019",
+    "sender": "IXISSAGE-NORMAL-019",
+    "body": "십자가 들고 나온거 보면 빼박이네..",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968768,
+    "phishingProbability": 0.031232
+  },
+  {
+    "id": "sample-020",
+    "sender": "IXISSAGE-NORMAL-020",
+    "body": "캐럿총괄리더님 태어난지 <NUM>일 축하해요",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.967637,
+    "phishingProbability": 0.032363
+  },
+  {
+    "id": "sample-021",
+    "sender": "IXISSAGE-NORMAL-021",
+    "body": "무엇을 상상하든 그 이하 속지마세요",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968652,
+    "phishingProbability": 0.031348
+  },
+  {
+    "id": "sample-022",
+    "sender": "IXISSAGE-NORMAL-022",
+    "body": "흉기차 침수차 대량으로 생산하겠네 ㅋㅋ",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968628,
+    "phishingProbability": 0.031372
+  },
+  {
+    "id": "sample-023",
+    "sender": "IXISSAGE-NORMAL-023",
+    "body": "최순실이랑 이경재 10 ~~~~8노 ㅁ 을 감옥에서 소리 없이 죽여 버려라 ~~짐승 만도 못한 쓰레기들 ~",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968435,
+    "phishingProbability": 0.031565
+  },
+  {
+    "id": "sample-024",
+    "sender": "IXISSAGE-SMISH-024",
+    "body": "선물 박스 확인하셨나요?크레이지스롯언제나 안전이 * https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019894,
+    "phishingProbability": 0.980106
+  },
+  {
+    "id": "sample-025",
+    "sender": "IXISSAGE-NORMAL-025",
+    "body": "트럼프는 전쟁싫어하고 러시아도 별로 안좋아하는데 빌어먹을 언론이 다 망치고 있네",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.96873,
+    "phishingProbability": 0.03127
+  },
+  {
+    "id": "sample-026",
+    "sender": "IXISSAGE-SMISH-026",
+    "body": "[Web발신] [코인원 로그인 알림] 고객님계정이 해외IP-<IP_ADDRESS>에서 로그인되었습니다.본인이아닐 경우에는 해외IP차단해주세요. 최근 개인정보 유출로인한 해킹사례가 많으니 코인원은 해킹방지를위해 해외IP차단서비스를신청하시 기바랍니다. 코인원은 안전하고 건강한 시장 조성을위해 다방면으로 노력하고 있습니다. https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.020325,
+    "phishingProbability": 0.979675
+  },
+  {
+    "id": "sample-027",
+    "sender": "IXISSAGE-SMISH-027",
+    "body": "서울ca https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.0203,
+    "phishingProbability": 0.9797
+  },
+  {
+    "id": "sample-028",
+    "sender": "IXISSAGE-NORMAL-028",
+    "body": "박사모들 최순실 빠느라 정신없고만",
+    "groundTruthLabel": "normal",
+    "predictedLabel": "normal",
+    "normalProbability": 0.968767,
+    "phishingProbability": 0.031233
+  },
+  {
+    "id": "sample-029",
+    "sender": "IXISSAGE-SMISH-029",
+    "body": "https://example.com * * 매 * *[M*]",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019884,
+    "phishingProbability": 0.980116
+  },
+  {
+    "id": "sample-030",
+    "sender": "IXISSAGE-SMISH-030",
+    "body": "방치해놓지마세요미사용 ***,***원l▷ ***********P▷ https://example.com",
+    "groundTruthLabel": "smishing",
+    "predictedLabel": "smishing",
+    "normalProbability": 0.019729,
+    "phishingProbability": 0.980271
+  }
+]
