@@ -20,6 +20,9 @@ data class MessageUiState(
     val isLoading: Boolean = true,
     val messages: List<ClassifiedMessage> = emptyList(),
     val selectedMessageId: String? = null,
+    val isManualTestMode: Boolean = false,
+    val manualText: String = "",
+    val manualClassification: ClassificationResult? = null,
     val errorMessage: String? = null,
 ) {
     val selectedMessage: ClassifiedMessage?
@@ -45,6 +48,47 @@ class MessageViewModel(
 
     fun clearSelection() {
         uiState.value = uiState.value.copy(selectedMessageId = null)
+    }
+
+    fun openManualTest() {
+        uiState.value = uiState.value.copy(
+            selectedMessageId = null,
+            isManualTestMode = true,
+        )
+    }
+
+    fun closeManualTest() {
+        uiState.value = uiState.value.copy(isManualTestMode = false)
+    }
+
+    fun updateManualText(text: String) {
+        uiState.value = uiState.value.copy(
+            manualText = text,
+            manualClassification = null,
+        )
+    }
+
+    fun classifyManualText() {
+        val text = uiState.value.manualText.trim()
+        if (text.isEmpty()) {
+            uiState.value = uiState.value.copy(manualClassification = null)
+            return
+        }
+
+        val sample = SampleMessage(
+            id = "manual-test",
+            sender = "직접 입력",
+            body = text,
+            groundTruthLabel = "unknown",
+            precomputedResult = ClassificationResult(
+                normalProbability = 0f,
+                phishingProbability = 0f,
+                predictedLabel = "unknown",
+            ),
+        )
+        uiState.value = uiState.value.copy(
+            manualClassification = classifier.classify(sample),
+        )
     }
 
     private fun loadMessages() {

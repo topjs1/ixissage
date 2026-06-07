@@ -21,10 +21,18 @@ fun IxissageApp() {
     val state by viewModel.uiState
 
     val selected = state.selectedMessage
-    if (selected == null) {
+    if (state.isManualTestMode) {
+        ManualTestScreen(
+            state = state,
+            onTextChange = viewModel::updateManualText,
+            onClassifyClick = viewModel::classifyManualText,
+            onBack = viewModel::closeManualTest,
+        )
+    } else if (selected == null) {
         MessageListScreen(
             state = state,
             onMessageClick = viewModel::selectMessage,
+            onManualTestClick = viewModel::openManualTest,
         )
     } else {
         MessageDetailScreen(
@@ -33,4 +41,3 @@ fun IxissageApp() {
         )
     }
 }
-

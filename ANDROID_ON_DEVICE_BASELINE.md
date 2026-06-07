@@ -42,6 +42,15 @@ sample_messages.json
     -> MessageListScreen / MessageDetailScreen 표시
 ```
 
+목록 화면 상단의 직접 테스트 아이콘을 누르면 사용자가 문자 본문을 직접 입력할 수도 있다.
+
+```text
+사용자 직접 입력
+    -> OnDeviceBaselineClassifier가 Android 내부에서 TF-IDF 계산
+    -> Logistic Regression sigmoid probability 계산
+    -> 직접 테스트 화면에 결과 표시
+```
+
 ## 모델 asset 크기
 
 확인 결과:
@@ -156,8 +165,7 @@ cd android/IxissageApp
 
 현실적인 후속 작업:
 
-1. 앱에 사용자가 직접 문자 본문을 입력해 온디바이스 baseline 추론을 테스트하는 화면 추가
-2. 정상 기관 안내 문자 false positive 사례를 별도 manual test set으로 수집
-3. baseline threshold calibration
-4. URL 전용 ML 모델 또는 평판 DB 검토
-5. Transformer ONNX Runtime Mobile 또는 LiteRT 변환 재검토
+1. 정상 기관 안내 문자 false positive 사례를 별도 manual test set으로 수집
+2. baseline threshold calibration
+3. URL 전용 ML 모델 또는 평판 DB 검토
+4. Transformer ONNX Runtime Mobile 또는 LiteRT 변환 재검토

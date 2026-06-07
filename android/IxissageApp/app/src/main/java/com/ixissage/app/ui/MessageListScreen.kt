@@ -21,6 +21,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -43,6 +47,7 @@ import com.ixissage.app.data.badgeForProbability
 fun MessageListScreen(
     state: MessageUiState,
     onMessageClick: (String) -> Unit,
+    onManualTestClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -60,6 +65,14 @@ fun MessageListScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 ),
+                actions = {
+                    IconButton(onClick = onManualTestClick) {
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = "직접 테스트",
+                        )
+                    }
+                },
             )
         },
     ) { padding ->

@@ -49,6 +49,7 @@ Android Studio에서 실행:
 - ground truth label
 - predicted label
 - 정상/스미싱 확률
+- 사용자가 직접 입력한 문자 본문에 대한 온디바이스 baseline 추론 결과
 
 이 방식은 Python 모델 파일이 없어도 된다. Android 앱은 `sample_messages.json`에서 문자 본문을 읽고, `baseline_tfidf_logreg.json`에 들어 있는 TF-IDF + Logistic Regression baseline 모델을 기기 내부에서 실행한다.
 

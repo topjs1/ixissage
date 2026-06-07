@@ -303,6 +303,7 @@ Android 데모 앱은 Kotlin, Jetpack Compose, MVVM, Gradle Kotlin DSL로 구성
 - `baseline_tfidf_logreg.json` asset에 저장된 TF-IDF + Logistic Regression 모델을 Android 내부에서 실행한다.
 - `MessageListScreen`에서 발신자, 문자 미리보기, AI 판단 배지, 스미싱 확률을 표시한다.
 - 메시지를 누르면 `MessageDetailScreen`에서 전체 본문, ground truth label, predicted label, 정상 확률, 스미싱 확률을 표시한다.
+- 목록 화면 상단의 직접 테스트 아이콘으로 사용자가 입력한 문자 본문을 온디바이스 baseline 모델로 분류할 수 있다.
 - 배지는 `phishingProbability` threshold만 사용해 UI 표시용으로 계산한다.
 
 배지 기준:
