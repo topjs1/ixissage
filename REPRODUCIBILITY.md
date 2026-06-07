@@ -50,7 +50,13 @@ Android Studio에서 실행:
 - predicted label
 - 정상/스미싱 확률
 
-이 방식은 Python 모델 파일이 없어도 된다. Android 앱은 `android/IxissageApp/app/src/main/assets/sample_messages.json`에 들어 있는 precomputed inference 결과를 사용한다.
+이 방식은 Python 모델 파일이 없어도 된다. Android 앱은 `sample_messages.json`에서 문자 본문을 읽고, `baseline_tfidf_logreg.json`에 들어 있는 TF-IDF + Logistic Regression baseline 모델을 기기 내부에서 실행한다.
+
+주의:
+
+- Android 앱의 실시간 온디바이스 모델은 Transformer가 아니라 baseline 모델이다.
+- Transformer 모델은 Python 로컬 환경에서 학습/평가/단일 추론에 사용된다.
+- `PrecomputedSampleClassifier`는 구조상 남아 있지만 현재 ViewModel은 `OnDeviceBaselineClassifier`를 사용한다.
 
 ## 검증 레벨 2: 데이터 다운로드부터 학습까지 재현
 

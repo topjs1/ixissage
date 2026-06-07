@@ -30,7 +30,7 @@ class MessageViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     private val repository = MessageRepository(application)
-    private val classifier = ClassifierProvider.provideSampleClassifier()
+    private val classifier = ClassifierProvider.provideOnDeviceBaselineClassifier(application)
 
     var uiState = androidx.compose.runtime.mutableStateOf(MessageUiState())
         private set

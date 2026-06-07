@@ -300,6 +300,7 @@ Android 데모 앱은 Kotlin, Jetpack Compose, MVVM, Gradle Kotlin DSL로 구성
 기능:
 
 - 실제 SMS 권한 없이 `sample_messages.json` assets를 읽는다.
+- `baseline_tfidf_logreg.json` asset에 저장된 TF-IDF + Logistic Regression 모델을 Android 내부에서 실행한다.
 - `MessageListScreen`에서 발신자, 문자 미리보기, AI 판단 배지, 스미싱 확률을 표시한다.
 - 메시지를 누르면 `MessageDetailScreen`에서 전체 본문, ground truth label, predicted label, 정상 확률, 스미싱 확률을 표시한다.
 - 배지는 `phishingProbability` threshold만 사용해 UI 표시용으로 계산한다.
@@ -314,7 +315,18 @@ Android 데모 앱은 Kotlin, Jetpack Compose, MVVM, Gradle Kotlin DSL로 구성
 
 - `RuleBasedAnalyzer`, `KeywordDetector`, `URLRiskAnalyzer` 같은 룰 기반 구조는 없다.
 - 키워드 if문으로 위험 판단하지 않는다.
-- Android 앱은 JSON에 저장된 모델 inference 결과와 확률만 표시한다.
+- Android 앱은 현재 `OnDeviceBaselineClassifier`를 사용해 기기 내부에서 baseline 모델 확률을 직접 계산한다.
+- `PrecomputedSampleClassifier`는 Transformer 결과 표시나 백업 데모용 구조로 남아 있다.
+
+Android on-device baseline 모델 export:
+
+```bash
+python3 scripts/export_baseline_android.py
+```
+
+생성 파일:
+
+- `android/IxissageApp/app/src/main/assets/baseline_tfidf_logreg.json`
 
 빌드 환경:
 
@@ -350,6 +362,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 Android Studio에서는 `android/IxissageApp` 폴더를 열면 된다.
+
+온디바이스 baseline classifier의 구현 방식과 한계는 `ANDROID_ON_DEVICE_BASELINE.md`를 확인한다.
 
 ## 발표 데모 시나리오
 

@@ -211,6 +211,30 @@ find models/smishing_classifier -maxdepth 1 -type f -exec ls -lh {} \;
 
 > Android 앱은 문자 본문을 직접 규칙으로 판단하지 않습니다. Python에서 학습된 Transformer 모델이 계산한 정상/스미싱 확률을 JSON에 저장하고, 앱은 classifier 인터페이스를 통해 그 확률을 표시합니다. 실제 온디바이스 추론은 후속 확장 과제로 LiteRT 또는 ONNX Runtime Mobile을 검토했습니다.
 
+## 구현 업데이트: Android On-device Baseline
+
+이 문서 작성 이후, 발표 안정성과 실제 온디바이스 동작을 모두 만족시키기 위해 `TF-IDF + Logistic Regression` baseline 모델을 Android에 이식했다.
+
+구현 파일:
+
+- `scripts/export_baseline_android.py`
+- `android/IxissageApp/app/src/main/assets/baseline_tfidf_logreg.json`
+- `android/IxissageApp/app/src/main/java/com/ixissage/app/classifier/OnDeviceBaselineClassifier.kt`
+
+현재 Android 앱은 `baseline_tfidf_logreg.json`에 저장된 학습된 vocabulary, IDF, logistic regression weight를 읽고, Kotlin에서 직접 TF-IDF와 sigmoid probability를 계산한다.
+
+이 방식은 다음 점에서 온디바이스 AI 데모로 더 적합하다.
+
+- Android 앱 내부에서 직접 확률을 계산한다.
+- 외부 서버 호출이 없다.
+- 룰 기반 탐지가 아니다.
+- 키워드 `if`문이나 URL 존재 여부 rule을 쓰지 않는다.
+- Transformer보다 단순하지만, 수업 발표에서 “기기 내부 ML 추론”을 보여주기에 현실적이다.
+
+정확한 발표 표현:
+
+> Transformer 모델은 Python 로컬 환경에서 fine-tuning과 평가를 완료했습니다. Android 앱에는 실제 온디바이스 동작을 보여주기 위해 TF-IDF + Logistic Regression baseline 모델을 이식했고, 앱 내부 Kotlin 코드가 직접 확률을 계산합니다.
+
 ## 대안 1
 
 대안 1:
