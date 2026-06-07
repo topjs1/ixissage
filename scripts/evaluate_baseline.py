@@ -7,6 +7,7 @@ import argparse
 import csv
 import json
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,13 @@ except ImportError as exc:
         "Missing baseline dependencies. Install them with: "
         "python3 -m pip install -r requirements.txt"
     ) from exc
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ixissage_ml.text_normalization import normalize_for_intent_model  # noqa: E402
 
 
 MODEL_PATH = Path("models/baseline_tfidf_logreg.joblib")
@@ -63,6 +71,13 @@ def probabilities_by_label(pipeline: Any, texts: list[str]) -> list[dict[str, fl
     for row in probabilities:
         result.append({label: float(row[classes.index(label)]) for label in LABEL_ORDER})
     return result
+
+
+def model_texts(rows: list[dict[str, str]], metadata: dict[str, Any]) -> list[str]:
+    normalization = metadata.get("text_normalization", {})
+    if normalization.get("strip_url_like_spans"):
+        return [normalize_for_intent_model(row["content"]) for row in rows]
+    return [row["content"] for row in rows]
 
 
 def compute_metrics(y_true: list[str], y_pred: list[str]) -> dict[str, float]:
@@ -175,6 +190,7 @@ def write_report(
     split_counts = metadata.get("split_counts", {})
     split_label_counts = metadata.get("split_label_counts", {})
     data_stats = metadata.get("data_stats", {})
+    normalization = metadata.get("text_normalization", {})
 
     lines = [
         "# Baseline Report",
@@ -189,6 +205,7 @@ def write_report(
         "- No rule-based smishing detection",
         "- No keyword if-statements",
         "- No manual URL or handcrafted risk features",
+        "- URL-like spans are neutralized before TF-IDF when enabled by model metadata",
         "",
         "## Data Split",
         "",
@@ -204,6 +221,12 @@ def write_report(
         f"- Conflicting duplicate contents removed: `{data_stats.get('conflicting_duplicate_contents_removed', 'unknown')}`",
         "",
         "Exact duplicate message bodies were removed before splitting to reduce train/test leakage.",
+        "",
+        "## Text Normalization",
+        "",
+        f"- Normalization: `{normalization.get('name', 'none')}`",
+        f"- Strip URL-like spans before vectorization: `{normalization.get('strip_url_like_spans', False)}`",
+        f"- Purpose: `{normalization.get('description', 'not specified')}`",
         "",
         "## Test Metrics",
         "",
@@ -289,7 +312,7 @@ def main() -> None:
     rows = read_split(args.split)
     pipeline, metadata = load_pipeline(args.model_path)
 
-    texts = [row["content"] for row in rows]
+    texts = model_texts(rows, metadata)
     y_true = [row["label"] for row in rows]
     y_pred = pipeline.predict(texts).tolist()
     probabilities = probabilities_by_label(pipeline, texts)
@@ -326,6 +349,7 @@ def main() -> None:
             "Model uses content text only.",
             "No keyword if-statements are used.",
             "No manual URL or handcrafted risk features are used.",
+            "URL-like spans may be stripped before vectorization based on model metadata.",
         ],
     }
 

@@ -112,21 +112,23 @@ cd android/IxissageApp
 
 `OnDeviceBaselineClassifier`는 다음 순서로 계산한다.
 
-1. 문자 본문을 lowercase 처리한다.
-2. scikit-learn의 char analyzer와 맞게 반복 whitespace를 단일 space로 정규화한다.
-3. 2-5 글자 char n-gram을 생성한다.
-4. 학습된 vocabulary에 있는 n-gram만 count한다.
-5. sublinear TF와 IDF를 적용한다.
-6. L2 normalization을 적용한다.
-7. logistic regression weight와 intercept로 decision score를 계산한다.
-8. sigmoid로 `phishingProbability`를 계산한다.
-9. `normalProbability = 1 - phishingProbability`로 반환한다.
+1. URL-like 문자열을 공백으로 치환해 URL 표면형을 중립화한다.
+2. 문자 본문을 lowercase 처리한다.
+3. scikit-learn의 char analyzer와 맞게 반복 whitespace를 단일 space로 정규화한다.
+4. 2-5 글자 char n-gram을 생성한다.
+5. 학습된 vocabulary에 있는 n-gram만 count한다.
+6. sublinear TF와 IDF를 적용한다.
+7. L2 normalization을 적용한다.
+8. logistic regression weight와 intercept로 decision score를 계산한다.
+9. sigmoid로 `phishingProbability`를 계산한다.
+10. `normalProbability = 1 - phishingProbability`로 반환한다.
 
 중요:
 
 - n-gram 생성은 모델 입력 전처리다.
 - 특정 단어를 검사해 라벨을 정하지 않는다.
-- `http`, `www` 같은 문자열 조각이 asset vocabulary에 있을 수 있지만, 그것은 학습된 TF-IDF feature이지 사람이 만든 URL rule이 아니다.
+- URL-like 문자열 제거는 URL의 안전성을 판단하는 로직이 아니라, URL 존재만으로 스미싱 확률이 과도하게 올라가지 않도록 하는 균일한 전처리다.
+- URL 위험도 자체는 이 모델이 판단하지 않는다.
 
 ## Transformer와의 차이
 

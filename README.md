@@ -93,6 +93,7 @@ python3 scripts/inspect_dataset.py --no-redact-samples
 - `class=3`은 첫 binary baseline에서 제외
 - 동일 본문 중복은 split 전에 제거
 - 룰 기반 탐지, 키워드 if문, URL 포함 여부 같은 수작업 feature는 사용하지 않음
+- URL 자체의 안전성은 판단하지 않으며, URL-like 문자열은 모델 입력에서 중립화해 URL 표면형만으로 과대탐지하지 않도록 함
 
 의존성 설치:
 
@@ -129,11 +130,11 @@ python3 scripts/evaluate_baseline.py
 
 현재 test split 평가 결과:
 
-- accuracy: `0.992567`
-- precision: `0.997373`
-- recall: `0.989574`
-- F1: `0.993458`
-- confusion matrix: normal->normal `864`, normal->smishing `3`, smishing->normal `12`, smishing->smishing `1139`
+- accuracy: `0.989098`
+- precision: `0.996482`
+- recall: `0.984361`
+- F1: `0.990385`
+- confusion matrix: normal->normal `863`, normal->smishing `4`, smishing->normal `18`, smishing->smishing `1133`
 
 자세한 내용은 `outputs/baseline_report.md`를 확인한다.
 

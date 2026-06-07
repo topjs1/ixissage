@@ -32,6 +32,7 @@ private data class BaselineModel(
     val maxNgram: Int,
     val lowercase: Boolean,
     val sublinearTf: Boolean,
+    val stripUrlLikeSpans: Boolean,
 ) {
     fun predict(text: String): ClassificationResult {
         val counts = countKnownNgrams(preprocess(text))
@@ -69,8 +70,13 @@ private data class BaselineModel(
     }
 
     private fun preprocess(text: String): String {
-        val lowered = if (lowercase) text.lowercase(Locale.ROOT) else text
-        return repeatedWhitespace.replace(lowered, " ")
+        val withoutUrlSurface = if (stripUrlLikeSpans) {
+            urlLikePattern.replace(text, " ")
+        } else {
+            text
+        }
+        val lowered = if (lowercase) withoutUrlSurface.lowercase(Locale.ROOT) else withoutUrlSurface
+        return repeatedWhitespace.replace(lowered, " ").trim()
     }
 
     private fun countKnownNgrams(text: String): HashMap<Int, Int> {
@@ -94,6 +100,12 @@ private data class BaselineModel(
 
     companion object {
         private val repeatedWhitespace = Regex("\\s\\s+")
+        private val urlLikePattern = Regex(
+            pattern = "\\b(?:https?://|www\\.)\\S+|" +
+                "\\b[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\." +
+                "(?:com|net|org|kr|co\\.kr|go\\.kr|or\\.kr|ne\\.kr|io|me|ly|live|site|xyz)\\b\\S*",
+            options = setOf(RegexOption.IGNORE_CASE),
+        )
 
         fun load(context: Context, assetName: String): BaselineModel {
             val json = context.assets.open(assetName)
@@ -102,6 +114,7 @@ private data class BaselineModel(
             val root = JSONObject(json)
             val vectorizer = root.getJSONObject("vectorizer")
             val classifier = root.getJSONObject("classifier")
+            val textNormalization = root.optJSONObject("textNormalization")
             val ngramRange = vectorizer.getJSONArray("ngramRange")
             val features = root.getJSONArray("features")
             val featureCount = features.length()
@@ -126,6 +139,7 @@ private data class BaselineModel(
                 maxNgram = ngramRange.getInt(1),
                 lowercase = vectorizer.getBoolean("lowercase"),
                 sublinearTf = vectorizer.getBoolean("sublinearTf"),
+                stripUrlLikeSpans = textNormalization?.optBoolean("stripUrlLikeSpans", false) ?: false,
             )
         }
 

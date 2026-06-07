@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -32,6 +33,16 @@ except ImportError as exc:
         "Missing baseline dependencies. Install them with: "
         "python3 -m pip install -r requirements.txt"
     ) from exc
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ixissage_ml.text_normalization import (  # noqa: E402
+    NORMALIZATION_METADATA,
+    normalize_for_intent_model,
+)
 
 
 RAW_DATA_PATH = Path("data/raw/lgaidataset.csv")
@@ -216,7 +227,7 @@ def train_model(train_records: list[dict[str, str]], seed: int) -> Pipeline:
         ]
     )
     pipeline.fit(
-        [record["content"] for record in train_records],
+        [normalize_for_intent_model(record["content"]) for record in train_records],
         [record["label"] for record in train_records],
     )
     return pipeline
@@ -259,7 +270,9 @@ def main() -> None:
     write_split(test_path, test_records, "test")
 
     pipeline = train_model(train_records, seed=args.seed)
-    dev_predictions = pipeline.predict([record["content"] for record in dev_records]).tolist()
+    dev_predictions = pipeline.predict(
+        [normalize_for_intent_model(record["content"]) for record in dev_records]
+    ).tolist()
     dev_metrics = compute_binary_metrics(
         [record["label"] for record in dev_records],
         dev_predictions,
@@ -288,13 +301,14 @@ def main() -> None:
         "data_stats": data_stats,
         "vectorizer": {
             "type": "TfidfVectorizer",
-            "input": "content text only",
+            "input": "content text only after uniform URL-surface neutralization",
             "analyzer": "char",
             "ngram_range": [2, 5],
             "min_df": 2,
             "max_features": 100000,
             "sublinear_tf": True,
         },
+        "text_normalization": NORMALIZATION_METADATA,
         "classifier": {
             "type": "LogisticRegression",
             "class_weight": "balanced",
@@ -306,6 +320,7 @@ def main() -> None:
             "No rule-based smishing detection.",
             "No keyword if-statements.",
             "No manual URL or handcrafted risk features.",
+            "URL-like spans are stripped before vectorization so URL syntax alone is not treated as risk.",
             "Only the content text is transformed by TF-IDF.",
         ],
     }
@@ -321,9 +336,8 @@ def main() -> None:
     print(f"Test split: {test_path} ({len(test_records)} rows)")
     print(f"Model: {args.model_path}")
     print(f"Dev metrics: {dev_metrics}")
-    print("Policy: content-only TF-IDF; no keyword rules; no manual URL features.")
+    print("Policy: content-only TF-IDF; URL surface neutralized; no keyword rules; no manual URL risk features.")
 
 
 if __name__ == "__main__":
     main()
-

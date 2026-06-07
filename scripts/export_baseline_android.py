@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
+import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -25,6 +25,11 @@ except ImportError as exc:
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ixissage_ml.text_normalization import normalize_for_intent_model  # noqa: E402
+
 DEFAULT_MODEL_PATH = PROJECT_ROOT / "models" / "baseline_tfidf_logreg.joblib"
 DEFAULT_OUTPUT_PATH = (
     PROJECT_ROOT
@@ -40,8 +45,9 @@ DEFAULT_TEST_TEXTS = [
     "오늘 저녁에 회의 끝나고 집에 갈게.",
     "[국외발신] 고객님 계정이 해외 IP에서 로그인되었습니다. 본인 확인을 진행해 주세요.",
     "ㅎㅇㅎㅇㅎㅇ 잘지내냐?",
+    "https://www.naver.com",
+    "네이버 접속 주소는 https://www.naver.com 입니다.",
 ]
-WHITESPACE_PATTERN = re.compile(r"\s\s+")
 
 
 def load_pipeline(path: Path) -> tuple[Any, dict[str, Any]]:
@@ -97,6 +103,13 @@ def export_payload(pipeline: Any, metadata: dict[str, Any]) -> dict[str, Any]:
             "featureCount": len(features),
             "sklearnWhitespacePattern": r"\s\s+",
         },
+        "textNormalization": {
+            "stripUrlLikeSpans": bool(
+                metadata.get("text_normalization", {}).get("strip_url_like_spans", False)
+            ),
+            "name": metadata.get("text_normalization", {}).get("name", "none"),
+            "description": metadata.get("text_normalization", {}).get("description", ""),
+        },
         "classifier": {
             "type": "LogisticRegression",
             "classes": classes,
@@ -108,20 +121,26 @@ def export_payload(pipeline: Any, metadata: dict[str, Any]) -> dict[str, Any]:
             "Android on-device baseline inference uses learned TF-IDF statistics and logistic regression weights.",
             "No keyword if-statements are used for risk decisions.",
             "No URL presence rule or handcrafted risk feature is used.",
+            "URL-like spans may be removed as uniform preprocessing so URL syntax alone is not scored as risk.",
             "Message text is transformed by the trained vectorizer, then scored by the trained classifier.",
         ],
     }
 
 
-def preprocess(text: str, lowercase: bool) -> str:
-    processed = text.lower() if lowercase else text
-    return WHITESPACE_PATTERN.sub(" ", processed)
+def preprocess(text: str, lowercase: bool, strip_url_like_spans: bool) -> str:
+    normalized = normalize_for_intent_model(text) if strip_url_like_spans else text
+    return normalized.lower() if lowercase else normalized
 
 
 def exported_predict(payload: dict[str, Any], text: str) -> dict[str, float | str]:
     vectorizer = payload["vectorizer"]
+    text_normalization = payload.get("textNormalization", {})
     min_n, max_n = vectorizer["ngramRange"]
-    processed = preprocess(text, lowercase=vectorizer["lowercase"])
+    processed = preprocess(
+        text,
+        lowercase=vectorizer["lowercase"],
+        strip_url_like_spans=bool(text_normalization.get("stripUrlLikeSpans", False)),
+    )
     vocabulary = {feature["term"]: index for index, feature in enumerate(payload["features"])}
     idf_values = [float(feature["idf"]) for feature in payload["features"]]
     coefficients = [float(feature["coef"]) for feature in payload["features"]]
@@ -161,7 +180,8 @@ def exported_predict(payload: dict[str, Any], text: str) -> dict[str, float | st
 def verify_export(pipeline: Any, payload: dict[str, Any], texts: list[str]) -> None:
     max_delta = 0.0
     for text in texts:
-        python_probs = pipeline.predict_proba([text])[0]
+        model_text = normalize_for_intent_model(text) if payload.get("textNormalization", {}).get("stripUrlLikeSpans") else text
+        python_probs = pipeline.predict_proba([model_text])[0]
         exported = exported_predict(payload, text)
         normal_delta = abs(float(python_probs[0]) - float(exported["normalProbability"]))
         smishing_delta = abs(float(python_probs[1]) - float(exported["phishingProbability"]))
