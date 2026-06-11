@@ -379,24 +379,6 @@ Android Studio에서는 `android/IxissageApp` 폴더를 열면 된다.
 
 자세한 발표 스크립트와 대체 시연 방법은 `PRESENTATION_DEMO_SCENARIO.md`를 확인한다.
 
-## 친구/평가자 검증 방법
-
-친구들이 이 저장소를 직접 실행하거나 검증하고 싶다면 `REPRODUCIBILITY.md`를 확인한다.
-
-검증 방식은 세 단계로 나뉜다.
-
-1. Android 앱만 실행: GitHub 저장소만 clone하면 가능
-2. 데이터 다운로드부터 학습까지 재현: `scripts/download_dataset.py`부터 실행
-3. 기존 학습 모델로 Python 추론 실행: `models/smishing_classifier/`를 별도 ZIP 또는 GitHub Release로 받아야 함
-
-원본 데이터, processed split CSV, 학습된 모델 weight는 기본 GitHub commit에 포함하지 않는다. 필요한 경우 모델 weight는 GitHub Release asset으로 따로 공유하는 것을 권장한다.
-
-## 라이선스와 사용상 주의
-
-Hugging Face 데이터셋 카드에는 명확한 라이선스가 표시되어 있지 않다. 라이선스 discussion에서 작성자는 일부 소스의 라이선스를 확인하기 어렵고, 법적 문제가 중요한 상업적 이용이라면 사용하지 않는 편이 좋다고 설명했다.
-
-따라서 `ixissage`는 수업 프로젝트 범위에서만 사용하고, 상용 서비스나 실제 보안 제품으로 사용하지 않는다.
-
 ## 다음 단계
 
 다음 단계는 Android UI를 실제 기기나 에뮬레이터에서 확인하고, 필요하면 `outputs/sample_messages.json`을 다시 생성해 assets에 갱신하는 것이다. 이때도 키워드 기반 위험 판단 코드는 작성하지 않는다.
