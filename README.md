@@ -367,18 +367,6 @@ Android Studio에서는 `android/IxissageApp` 폴더를 열면 된다.
 
 온디바이스 baseline classifier의 구현 방식과 한계는 `ANDROID_ON_DEVICE_BASELINE.md`를 확인한다.
 
-## 발표 데모 시나리오
-
-수업 발표에서는 다음 흐름으로 시연한다.
-
-1. Transformer 모델 평가 결과 설명
-2. `src/inference.py`로 단일 문자 추론 결과 확인
-3. `sample_messages.json`에 저장된 모델 확률 설명
-4. Android 앱에서 문자 목록과 상세 화면 시연
-5. 온디바이스 추론은 후속 확장 과제로 설명
-
-자세한 발표 스크립트와 대체 시연 방법은 `PRESENTATION_DEMO_SCENARIO.md`를 확인한다.
-
 ## 다음 단계
 
 다음 단계는 Android UI를 실제 기기나 에뮬레이터에서 확인하고, 필요하면 `outputs/sample_messages.json`을 다시 생성해 assets에 갱신하는 것이다. 이때도 키워드 기반 위험 판단 코드는 작성하지 않는다.
